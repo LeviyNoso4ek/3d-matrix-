@@ -8,4 +8,4 @@ class Camera():
         self.scale = math.tan(math.radians(self.fov * 0.5))
         self.forward = Vec3(0, 0, 1).norm()
 
-        self.up = Vec3(0, 1, 0)
+        self.up = Vec3(0, 1, 0) 
