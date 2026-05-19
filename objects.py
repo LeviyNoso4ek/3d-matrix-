@@ -30,6 +30,7 @@ class Object:
     def update_matrix(self):
         self.m_model = M_tr(*self.tr) * M_rot_z(self.r_z) * M_rot_y(self.r_y) * M_rot_x(self.r_x)
     def render(self, surface: pg.Surface):
+        self.update_matrix()
         proj_vs = [get_scr_coords(self.m_model * v) for v in self.verticales]
         [pg.draw.line(surface, 'green', proj_vs[edge[0]], proj_vs[edge[1]], 1) for edge in self.edges]
         
