@@ -1,4 +1,5 @@
 WIDTH, HEIGHT = 1920 // 2, 1080 // 2
+SENSITIVITY = 0.15 
 
 FPS = 60
 

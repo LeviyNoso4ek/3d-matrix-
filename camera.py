@@ -18,6 +18,8 @@ class Camera():
         
         self.fov = 90.0
         self.scale = math.tan(math.radians(self.fov * 0.5))
+        
+        self.update_basis()
     def update_basis(self):
         yaw_rad = math.radians(self.yaw)
         pitch_rad = math.radians(self.pitch)
@@ -38,8 +40,8 @@ class Camera():
         self.update_basis()
     def get_v_matrix(self):
         return Matrix(data=[
-            [self.R.x,   self.R.y,  self.R.z, -self.P * self.R],
-            [self.U.x,   self.U.y,  self.U.z, -self.P * self.U],
-            [-self.F.x, -self.F.y, -self.F.z,  self.P * self.F],
-            [    0,         0,         0,            0        ]
+            [self.R.x,   self.R.y,  self.R.z, -self.P.dot(self.R)],
+            [self.U.x,   self.U.y,  self.U.z, -self.P.dot(self.U)],
+            [-self.F.x, -self.F.y, -self.F.z,  self.P.dot(self.F)],
+            [    0,         0,         0,              1         ]
         ])

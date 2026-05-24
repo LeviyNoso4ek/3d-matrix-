@@ -32,8 +32,27 @@ class Object:
         self.m_model = M_tr(*self.tr) * M_rot_z(self.r_z) * M_rot_y(self.r_y) * M_rot_x(self.r_x)
     def render(self, surface: pg.Surface, cam: Camera):
         self.update_matrix()
-        proj_vs = [get_scr_coords(cam.get_v_matrix() * self.m_model * v) for v in self.verticales]
-        [pg.draw.line(surface, 'green', proj_vs[edge[0]], proj_vs[edge[1]], 1) for edge in self.edges]
+        
+        proj_vs = {}
+        is_front = {} 
+        
+        for i, v in enumerate(self.verticales):
+            view_vertex = cam.get_v_matrix() * self.m_model * v
+            
+            is_inside = view_vertex[2][0] > 0.0
+            is_front[i] = is_inside
+            
+            if is_inside:
+                proj_vs[i] = get_scr_coords(view_vertex)
+            else:
+                proj_vs[i] = (0, 0)
+        # proj_vs = [get_scr_coords() for v in self.verticales]
+        # [pg.draw.line(surface, 'green', proj_vs[edge[0]], proj_vs[edge[1]], 1) for edge in self.edges ]
+        for edge in self.edges:
+            p1_idx, p2_idx = edge
+            
+            if is_front[p1_idx] and is_front[p2_idx]:
+                pg.draw.line(surface, 'green', proj_vs[p1_idx], proj_vs[p2_idx], 1)
         
 class Cube(Object):
     def __init__(self, x0: int | float, y0: int | float, z0: int | float, a: int | float):

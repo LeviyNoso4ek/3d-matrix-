@@ -54,10 +54,6 @@ class Matrix():
         return Matrix(self.m, other.n, [[sum(self[m][idx] * other_cols[n][idx] for idx in range(self.n))for n in range(other.n)]for m in range(self.m)])
     def get_columns(self):  # >
         return [[self[m][n] for m in range(self.m)] for n in range(self.n)]
-    @classmethod
-    def from_vec(cls, v: Vec3):
-        
-        return Matrix(data=[v.x, v.y, v.z, 1])
 
 M_PROJ = Matrix(data=[
                     [1, 0, 0, 0], #   [2]   [2]
