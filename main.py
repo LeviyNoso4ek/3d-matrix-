@@ -8,6 +8,8 @@ import pygame as pg
 root = pg.display.set_mode((WIDTH, HEIGHT))
 pg.display.set_caption('chel-v-matrice')
 
+cam = Camera(Vec3(0, 0, 0))
+
 scene = Scene()
 obj = load_obj('models/cat.obj')
 scene.append(obj)
@@ -26,7 +28,7 @@ while running:
             
     obj.rot_y(1)
 
-    scene.render(root)
+    scene.render(root, cam)
     pg.display.flip()
     clock.tick(60)
 pg.quit()

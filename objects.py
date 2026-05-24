@@ -1,4 +1,5 @@
 import pygame as pg
+from camera import Camera
 from matrix import *
 from funcs import get_scr_coords
 
@@ -29,9 +30,9 @@ class Object:
         self.r_z = (self.r_z + degrees) % 360
     def update_matrix(self):
         self.m_model = M_tr(*self.tr) * M_rot_z(self.r_z) * M_rot_y(self.r_y) * M_rot_x(self.r_x)
-    def render(self, surface: pg.Surface):
+    def render(self, surface: pg.Surface, cam: Camera):
         self.update_matrix()
-        proj_vs = [get_scr_coords(self.m_model * v) for v in self.verticales]
+        proj_vs = [get_scr_coords(cam.get_v_matrix() * self.m_model * v) for v in self.verticales]
         [pg.draw.line(surface, 'green', proj_vs[edge[0]], proj_vs[edge[1]], 1) for edge in self.edges]
         
 class Cube(Object):
@@ -67,8 +68,8 @@ class Scene:
         return self.objects[idx]
     def append(self, obj: Object) -> None:
         self.objects.append(obj)
-    def render(self, surface: pg.Surface):
-        [obj.render(surface) for obj in self]
+    def render(self, surface: pg.Surface, cam: Camera):
+        [obj.render(surface, cam) for obj in self]
         
 
 def load_obj(filepath: str) -> Object:

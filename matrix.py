@@ -1,4 +1,5 @@
 import math
+from vec import Vec3
 
 class MatrixRow:
     def __init__(self, row_data: list):
@@ -17,7 +18,9 @@ class MatrixRow:
 class Matrix():
     def __init__(self, m: int=0, n: int=0, data: list=None):  # m - кол-во строк; n - кол-во столбцов
         if data:
-            if not isinstance(data[0], list):
+            if isinstance(data, Vec3):
+                data = [[float(x)] for x in data] + [[1.0]]
+            elif not isinstance(data[0], list):
                 data = [[float(x)] for x in data]
             self.data = [[float(x) for x in row] for row in data]
             self.m = len(self.data)
@@ -51,6 +54,10 @@ class Matrix():
         return Matrix(self.m, other.n, [[sum(self[m][idx] * other_cols[n][idx] for idx in range(self.n))for n in range(other.n)]for m in range(self.m)])
     def get_columns(self):  # >
         return [[self[m][n] for m in range(self.m)] for n in range(self.n)]
+    @classmethod
+    def from_vec(cls, v: Vec3):
+        
+        return Matrix(data=[v.x, v.y, v.z, 1])
 
 M_PROJ = Matrix(data=[
                     [1, 0, 0, 0], #   [2]   [2]

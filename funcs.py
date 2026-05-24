@@ -10,3 +10,5 @@ def get_scr_coords(world_vertex: Matrix):
     y = HEIGHT - (y_ind / 2 * HEIGHT)
     return (int(x), int(y))
 
+def clamp(val, min_val, max_val): 
+    return max(min_val, min(val, max_val))
