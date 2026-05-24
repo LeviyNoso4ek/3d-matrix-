@@ -59,7 +59,7 @@ while running:
         if mouse_dx != 0 or mouse_dy != 0:
             cam.rot(-mouse_dx * SENSITIVITY, mouse_dy * SENSITIVITY)
             
-    # obj.rot_y(1)
+    obj.rot_y(1)
 
     scene.render(root, cam)
     pg.display.flip()
